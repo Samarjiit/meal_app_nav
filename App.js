@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StatusBar } from "expo-status-bar"
+import { StyleSheet } from "react-native"
+import { useEffect } from "react"
+import CategoriesScreen from "./screens/CategoriesScreen"
+import { useFonts } from "expo-font"
+import * as SplashScreen from "expo-splash-screen" //splash screen
+//setting the custom fonts
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+    LemonLove: require("./assets/fonts/LemonLove.ttf"),
+    MilkyCoffee: require("./assets/fonts/MilkyCoffee.otf"),
+  })
+  //it will do componentdidmount
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync()
+    }
+    prepare()
+  }, [])
+  if (!fontsLoaded) {
+    return undefined
+  } else {
+    SplashScreen.hideAsync()
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <>
+      <StatusBar style="light" />
+      <CategoriesScreen />
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  container: {},
+})
